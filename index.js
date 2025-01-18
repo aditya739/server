@@ -1,17 +1,20 @@
 const express = require('express');
 
-// Initialize the Express app
 const app = express();
-const port = 3000; // Change this to your desired port
+const port = 3000;
 
-// Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// In-memory storage for the latest sensor data
+const cors = require('cors')
+app.use(cors({
+    origin:'*', 
+    credentials:true,
+    optionSuccessStatus:200,
+}))
+
 let sensorData = null;
 
-// Handle POST requests to save data
 app.post('/sensor-data', (req, res) => {
   const { temperature, humidity } = req.body;
   console.log("It hits the server")
@@ -32,7 +35,6 @@ app.post('/sensor-data', (req, res) => {
   }
 });
 
-// Handle GET requests to retrieve data
 app.get('/sensor-data', (req, res) => {
   if (sensorData) {
     res.json(sensorData);
@@ -41,7 +43,6 @@ app.get('/sensor-data', (req, res) => {
   }
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
