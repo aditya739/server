@@ -14,6 +14,7 @@ let sensorData = null;
 // Handle POST requests to save data
 app.post('/sensor-data', (req, res) => {
   const { temperature, humidity } = req.body;
+  console.log("It hits the server")
 
   if (temperature !== undefined && humidity !== undefined) {
     // Store data in memory
@@ -22,6 +23,8 @@ app.post('/sensor-data', (req, res) => {
       humidity,
       timestamp: new Date().toISOString(),
     };
+
+    console.log(sensorData)
 
     res.json({ status: 'success', message: 'Data received', data: sensorData });
   } else {
